@@ -22,4 +22,4 @@ spec:
           image: hatif007/python-argo-jenkins-demo:latest
 
           ports:
-            - containerPort: 8080
+            - containerPort: 8085

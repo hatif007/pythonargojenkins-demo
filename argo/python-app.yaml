@@ -9,7 +9,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/hatif007/python-argo-jenkins-demo.git
+    repoURL: https://github.com/hatif007/pythonargojenkins-demo
     targetRevision: main
     path: k8s
 
