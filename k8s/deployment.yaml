@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: python-demo
-          image: hatif007/python-argo-jenkins-demo:latest
+          image: hatif007/python-argo-jenkins-demo:12
 
           ports:
             - containerPort: 8085
