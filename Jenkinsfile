@@ -140,10 +140,10 @@ spec:
             )
         ]) {
             sh '''
-                git push \
-                https://${GIT_USER}:${GIT_TOKEN}@https://github.com/hatif007/pythonargojenkins-demo.git
-                HEAD:main
-            '''
+    git push \
+    https://${GIT_USER}:${GIT_TOKEN}@github.com/hatif007/pythonargojenkins-demo.git \
+    HEAD:main
+'''
         }
     }
 }
