@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: python-demo
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: python-demo
+
+  template:
+    metadata:
+      labels:
+        app: python-demo
+
+    spec:
+      containers:
+        - name: python-demo
+          image: hatif007/python-argo-jenkins-demo:latest
+
+          ports:
+            - containerPort: 8080
