@@ -112,46 +112,41 @@ spec:
         }
 
 
-        stage('Update GitOps') {
-            steps {
+       stage('Update GitOps') {
+    steps {
 
-                container('git') {
+        sh '''
+            echo "Updating Kubernetes image..."
 
-                    sh '''
-                        echo "Updating Kubernetes image..."
+            sed -i \
+            "s#image: ${IMAGE}:.*#image: ${IMAGE}:${BUILD_NUMBER}#" \
+            k8s/deployment.yaml
 
-                        sed -i \
-                        "s#image: ${IMAGE}:.*#image: ${IMAGE}:${BUILD_NUMBER}#" \
-                        k8s/deployment.yaml
+            echo "New image:"
+            grep "image:" k8s/deployment.yaml
 
-                        echo "New image:"
-                        grep "image:" k8s/deployment.yaml
+            git config user.name "jenkins"
+            git config user.email "jenkins@local"
 
-                        git config user.name "jenkins"
-                        git config user.email "jenkins@local"
+            git add k8s/deployment.yaml
+            git commit -m "Deploy build ${BUILD_NUMBER}" || true
+        '''
 
-                        git add k8s/deployment.yaml
-
-                        git commit \
-                        -m "Deploy build ${BUILD_NUMBER}" || true
-                    '''
-
-                    withCredentials([
-                        usernamePassword(
-                            credentialsId: 'github-token',
-                            usernameVariable: 'GIT_USER',
-                            passwordVariable: 'GIT_TOKEN'
-                        )
-                    ]) {
-
-                        sh '''
-                            git push \
-                            https://${GIT_USER}:${GIT_TOKEN}@github.com/hatif007/python-argo-jenkins-demo.git \
-                            HEAD:main
-                        '''
-                    }
-                }
-            }
+        withCredentials([
+            usernamePassword(
+                credentialsId: 'github-token',
+                usernameVariable: 'GIT_USER',
+                passwordVariable: 'GIT_TOKEN'
+            )
+        ]) {
+            sh '''
+                git push \
+                https://${GIT_USER}:${GIT_TOKEN}@github.com/hatif007/python-argo-jenkins-demo.git \
+                HEAD:main
+            '''
         }
     }
+}
+    }
+
 }
